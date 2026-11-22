@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard AI — Advanced Phishing URL Detection & Threat Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>PhishGuard <span>AI</span></h1>
+                    <span class="badge-status"><span class="pulse-dot"></span> 3-Layer Defense Active (Heuristics &bull; RF &bull; Threat Intel)</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="stats-pills">
+                    <span class="stat-pill"><strong id="sessionScanCount">0</strong> Scans in Session</span>
+                    <span class="stat-pill highlight">Model Accuracy: 100%</span>
+                </div>
+                <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                    <span class="theme-label">Dark</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Interactive Tabs Bar -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="tab-scanner">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Live URL Scanner
+            </button>
+            <button class="tab-btn" data-tab="tab-batch">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                Batch Scanner
+            </button>
+            <button class="tab-btn" data-tab="tab-analytics">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                AI Model Analytics & Visualizations
+            </button>
+            <button class="tab-btn" data-tab="tab-history">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Scan History
+            </button>
+        </nav>
+
+        <!-- TAB 1: LIVE URL SCANNER -->
+        <main id="tab-scanner" class="tab-pane active">
+            <div class="scanner-grid">
+                <!-- Left: Input & Quick Presets -->
+                <div class="panel-card input-panel">
+                    <div class="panel-header">
+                        <h2>Inspect Target URL</h2>
+                        <span class="sub-text">Analyzes Shannon entropy, protocol security, brand spoofing, and blocklists.</span>
+                    </div>
+
+                    <form id="urlForm" class="scan-form">
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔗</span>
+                            <input type="text" id="urlInput" placeholder="Enter URL (e.g., http://192.0.2 or https://google.com)" autocomplete="off" spellcheck="false">
+                            <button type="button" id="pasteBtn" class="action-icon-btn" title="Paste from clipboard">📋</button>
+                            <button type="button" id="clearBtn" class="action-icon-btn" title="Clear input">✕</button>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="scanBtn" class="btn btn-primary">
+                                <span class="btn-text">Deep Scan URL</span>
+                                <span class="spinner" id="scanSpinner"></span>
+                            </button>
+                            <span id="statusText" class="status-indicator"></span>
+                        </div>
+                    </form>
+
+                    <!-- Interactive Quick-Test Presets -->
+                    <div class="presets-section">
+                        <span class="presets-title">⚡ Quick Interactive Test Presets:</span>
+                        <div class="presets-grid">
+                            <button class="preset-pill danger" data-url="http://192.0.2">
+                                <span class="pill-dot red"></span> Raw IP (192.0.2)
+                            </button>
+                            <button class="preset-pill danger" data-url="http://paypal-security-login.xyz/verify">
+                                <span class="pill-dot red"></span> PayPal Brand Spoof
+                            </button>
+                            <button class="preset-pill danger" data-url="http://xn--pypal-4ve.com/signin">
+                                <span class="pill-dot red"></span> Punycode Homograph
+                            </button>
+                            <button class="preset-pill warning" data-url="http://example.com/browse/news">
+                                <span class="pill-dot orange"></span> Insecure HTTP
+                            </button>
+                            <button class="preset-pill success" data-url="https://www.google.com">
+                                <span class="pill-dot green"></span> Google (Safe)
+                            </button>
+                            <button class="preset-pill success" data-url="https://github.com">
+                                <span class="pill-dot green"></span> GitHub (Safe)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Prediction Result Card -->
+                <div class="panel-card result-panel" id="resultCard">
+                    <div class="panel-header">
+                        <h2>Security Verdict</h2>
+                        <span class="sub-text" id="verdictSubtitle">Real-time classification and threat diagnostics.</span>
+                    </div>
+
+                    <div id="resultContent" class="result-placeholder-box">
+                        <div class="empty-state">
+                            <div class="radar-scan-anim">
+                                <div class="radar-sweep"></div>
+                            </div>
+                            <h3>Awaiting Target URL</h3>
+                            <p>Enter a URL or select a test preset to execute real-time threat intelligence and AI classification.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- TAB 2: BATCH SCANNER -->
+        <section id="tab-batch" class="tab-pane">
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h2>Batch URL Threat Scanner</h2>
+                    <span class="sub-text">Inspect up to 50 URLs in one click. Enter one URL per line.</span>
+                </div>
+
+                <div class="batch-controls">
+                    <textarea id="batchInput" class="batch-textarea" placeholder="https://www.google.com&#10;http://192.0.2&#10;http://paypal-security-login.xyz/verify&#10;http://example.com/browse" rows="6"></textarea>
+                    
+                    <div class="batch-buttons">
+                        <button id="batchScanBtn" class="btn btn-primary">Scan All URLs</button>
+                        <button id="batchSampleBtn" class="btn btn-secondary">Load Sample Mix</button>
+                        <button id="batchClearBtn" class="btn btn-outline">Clear</button>
+                        <button id="batchExportBtn" class="btn btn-secondary" style="margin-left: auto;" disabled>Export CSV</button>
+                    </div>
+                </div>
+
+                <!-- Batch Summary Counters -->
+                <div id="batchSummary" class="batch-summary-row" style="display: none;">
+                    <div class="summary-card danger"><span id="batchCountPhishing">0</span> Phishing Found</div>
+                    <div class="summary-card warning"><span id="batchCountSuspicious">0</span> Suspicious</div>
+                    <div class="summary-card success"><span id="batchCountSafe">0</span> Legitimate</div>
+                </div>
+
+                <!-- Batch Results Table -->
+                <div class="table-responsive" id="batchTableWrapper" style="display: none;">
+                    <table class="styled-table" id="batchTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>URL</th>
+                                <th>Verdict</th>
+                                <th>Confidence</th>
+                                <th>Key Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MODEL ANALYTICS & VISUALIZATIONS -->
+        <section id="tab-analytics" class="tab-pane">
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h2>AI Model Explainability & Training Visualizations</h2>
+                    <span class="sub-text">High-resolution evaluation charts generated by the Random Forest training pipeline.</span>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Confusion Matrix</h3>
+                        <p class="chart-desc">100% detection rate across legitimate and phishing callsets.</p>
+                        <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" alt="Confusion Matrix" class="zoomable-chart" onclick="openLightbox(this.src)">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>ROC Curve (AUC = 1.00)</h3>
+                        <p class="chart-desc">Receiver Operating Characteristic demonstrating perfect class separation.</p>
+                        <img src="{{ url_for('static', filename='images/roc_curve.png') }}" alt="ROC Curve" class="zoomable-chart" onclick="openLightbox(this.src)">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Top 10 Feature Importances</h3>
+                        <p class="chart-desc">Relative predictive weights of URL entropy, keywords, and domain signals.</p>
+                        <img src="{{ url_for('static', filename='images/feature_importance.png') }}" alt="Feature Importance" class="zoomable-chart" onclick="openLightbox(this.src)">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Feature Correlation Heatmap</h3>
+                        <p class="chart-desc">Inter-feature correlation across all extracted lexical and structural dimensions.</p>
+                        <img src="{{ url_for('static', filename='images/correlation_heatmap.png') }}" alt="Correlation Heatmap" class="zoomable-chart" onclick="openLightbox(this.src)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: SCAN HISTORY -->
+        <section id="tab-history" class="tab-pane">
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h2>Session Scan History</h2>
+                    <span class="sub-text">History of all individual URLs scanned during this active browser session.</span>
+                </div>
+
+                <div class="history-actions">
+                    <input type="text" id="historySearch" placeholder="Filter history by URL or verdict..." class="history-search">
+                    <button id="clearHistoryBtn" class="btn btn-outline">Clear History</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="styled-table" id="historyTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Target URL</th>
+                                <th>Verdict</th>
+                                <th>Confidence</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No scans performed yet in this session.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox Modal for Chart Zoom -->
+    <div id="chartModal" class="modal" onclick="closeLightbox()">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

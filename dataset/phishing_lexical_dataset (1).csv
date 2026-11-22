@@ -1,0 +1,13 @@
+url,url_length,suspicious_keywords,has_ip,has_hyphen,many_subdomains,shortened_url,label
+http://192.168.1.10/login,25,0,1,0,0,0,1
+https://www.google.com,22,0,0,0,0,0,0
+http://g00gle-login.com,24,1,0,1,0,0,1
+https://paypal.com,18,0,0,0,0,0,0
+http://paypal.login-security.com,33,1,0,1,1,0,1
+https://amazon.in,17,0,0,0,0,0,0
+http://verify-account-update.net,32,2,0,1,0,0,1
+https://github.com,18,0,0,0,0,0,0
+http://bit.ly/secure-login,26,1,0,1,0,1,1
+https://bankofindia.co.in,25,0,0,0,0,0,0
+http://secure-update-account-login.com,38,3,0,1,0,0,1
+https://wikipedia.org,21,0,0,0,0,0,0

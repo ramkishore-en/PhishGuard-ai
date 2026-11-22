@@ -1,0 +1,25 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE
+.vscode/
+.idea/
+
+# Large benchmark data files (>50MB)
+dataset/PhiUSIIL_Phishing_URL_Dataset.csv
+dataset/*.xls
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
