@@ -29,7 +29,7 @@
             <div class="header-actions">
                 <div class="stats-pills">
                     <span class="stat-pill"><strong id="sessionScanCount">0</strong> Scans in Session</span>
-                    <span class="stat-pill highlight">Model Accuracy: 100%</span>
+                    <span class="stat-pill highlight">Model Accuracy: 97.6%</span>
                 </div>
                 <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle theme">
                     <span class="theme-icon">🌙</span>
@@ -186,13 +186,13 @@
                 <div class="analytics-grid">
                     <div class="chart-card">
                         <h3>Confusion Matrix</h3>
-                        <p class="chart-desc">100% detection rate across legitimate and phishing callsets.</p>
+                        <p class="chart-desc">97.6% benchmark accuracy with 0 missed phishing threats on PhiUSIIL callset.</p>
                         <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" alt="Confusion Matrix" class="zoomable-chart" onclick="openLightbox(this.src)">
                     </div>
 
                     <div class="chart-card">
-                        <h3>ROC Curve (AUC = 1.00)</h3>
-                        <p class="chart-desc">Receiver Operating Characteristic demonstrating perfect class separation.</p>
+                        <h3>ROC Curve (AUC = 0.995)</h3>
+                        <p class="chart-desc">Receiver Operating Characteristic demonstrating strong class discrimination (AUC = 0.995).</p>
                         <img src="{{ url_for('static', filename='images/roc_curve.png') }}" alt="ROC Curve" class="zoomable-chart" onclick="openLightbox(this.src)">
                     </div>
 
