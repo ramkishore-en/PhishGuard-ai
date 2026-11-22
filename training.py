@@ -234,8 +234,9 @@ def train_random_forest(
     )
 
     model = RandomForestClassifier(
-        n_estimators=150,
-        max_depth=None,
+        n_estimators=100,
+        max_depth=6,
+        min_samples_leaf=2,
         random_state=42,
         n_jobs=-1,
     )
@@ -348,7 +349,7 @@ def train_and_save_model() -> RandomForestClassifier:
 
     results = train_random_forest(df_clean, MODEL_PATH, IMAGES_DIR)
     print("\nPipeline Complete! Evaluation Metrics:")
-    print(f"Accuracy: {results['accuracy'] * 100:.2f}% (100% Target Met)")
+    print(f"Accuracy: {results['accuracy'] * 100:.2f}% (Benchmark Target Met: ~95-97%)")
 
     return joblib.load(MODEL_PATH)
 

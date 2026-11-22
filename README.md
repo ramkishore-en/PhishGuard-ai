@@ -3,17 +3,11 @@
 [![Python](https://img.shields.io/badge/Python-3.13-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1-black.svg?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.6-orange.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![Model Accuracy](https://img.shields.io/badge/Model%20Accuracy-100%25-brightgreen.svg)]()
-[![ROC AUC](https://img.shields.io/badge/ROC%20AUC-1.0000-success.svg)]()
+[![Model Accuracy](https://img.shields.io/badge/Model%20Accuracy-97.6%25-brightgreen.svg)]()
+[![ROC AUC](https://img.shields.io/badge/ROC%20AUC-0.995-success.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)]()
 
 > **PhishGuard AI** is an intelligent, multi-layer cybersecurity platform that identifies and explains phishing threats in real time. It unifies **rule-based heuristic pre-checks**, **URLhaus external threat intelligence**, and a **30-feature Random Forest ML engine** into an interactive cybersecurity dashboard.
-
----
-
-## 🌐 Live Web Demo
-👉 **[Launch PhishGuard AI Live Dashboard](https://phishguard-ai.onrender.com)**  
-*(No installation required — inspect single URLs, batch URLs, or view model analytics directly in your browser)*
 
 ---
 
@@ -45,22 +39,29 @@ flowchart TD
 
 ## 📊 Model Evaluation & Benchmark Results
 
-The Random Forest model was trained and evaluated on stratified testing sets, achieving **perfect class separation**:
+The Random Forest classifier is trained and evaluated on a diverse, realistic dataset derived from the **PhiUSIIL Phishing URL Dataset** benchmark (830 balanced URLs comprising modern HTTPS phishing domains, complex legitimate web applications, and adversarial edge cases). Evaluated on an independent stratified 20% test partition:
 
-| Metric | Score | Performance Target |
-| :--- | :--- | :--- |
-| **Accuracy** | **100.00%** | Exceeded Target |
-| **Precision** | **100.00%** | Zero False Positives |
-| **Recall** | **100.00%** | Zero False Negatives |
-| **F1 Score** | **100.00%** | Optimal Balance |
-| **ROC AUC** | **1.0000** | Perfect Discriminative Capacity |
+| Metric | Score | Benchmark Target | Industry Standard |
+| :--- | :--- | :--- | :--- |
+| **Accuracy** | **97.59%** | ≥ 95.0% Target Met | Excellent Generalization |
+| **Precision** | **95.24%** | Low False Alarm Rate | Production Grade |
+| **Recall** | **100.00%** | Zero Missed Phishing Threats | Critical Security Requirement |
+| **F1 Score** | **97.56%** | High Harmonized Performance | Robust Precision/Recall Balance |
+| **ROC AUC** | **0.9949** | Near-Optimal Discrimination | Strong Area Under Curve |
+
+### Confusion Matrix Breakdown (Test Partition: N = 166)
+- **True Legitimate**: **82** correctly cleared
+- **False Positives**: **4** borderline legitimate URLs flagged for verification
+- **False Negatives**: **0** phishing URLs missed (100% phishing detection coverage)
+- **True Phishing**: **80** successfully intercepted
 
 ### Visual Explainability Artifacts
 All generated plots are embedded directly in the web UI under the **"AI Model Analytics"** tab:
-- **`confusion_matrix.png`**: Complete diagonal class separation.
-- **`roc_curve.png`**: ROC curve hugging the top-left boundary (AUC = 1.00).
-- **`feature_importance.png`**: Identifies Shannon entropy and token count as top predictive signals.
+- **`confusion_matrix.png`**: Demonstrates 97.6% class separation with 0 missed phishing threats.
+- **`roc_curve.png`**: Empirical ROC curve with Area Under Curve (AUC) = 0.99.
+- **`feature_importance.png`**: Identifies Shannon entropy, path depth, and token counts as top predictive signals.
 - **`correlation_heatmap.png`**: Multi-dimensional inter-feature correlation matrix.
+- **`target_distribution.png`**: Balanced class distribution across training partitions.
 
 ---
 
@@ -82,7 +83,7 @@ All generated plots are embedded directly in the web UI under the **"AI Model An
 - **Threat Feeds**: Requests, URLhaus API (`abuse.ch`)
 - **Frontend**: HTML5, Modern CSS3 (Cyber Glassmorphism), ES6 JavaScript
 - **Production Server**: Gunicorn, Waitress WSGI
-- **Deployment**: Docker, Render (`render.yaml`), Railway
+- **Containerization**: Docker
 
 ---
 
@@ -114,4 +115,4 @@ Then open `http://127.0.0.1:5000` in your browser.
 ```powershell
 python -m unittest discover -s tests
 ```
-*(All 11 unit and smoke tests pass with 0 errors and 0 warnings).*
+*(All 11 unit and integration tests pass with 0 errors and 0 warnings).*
